@@ -16,9 +16,9 @@ The candidate should focus on:
 The RAG pipeline will execute the following steps:
 
 	1.	Populate the vector database with both structured data (e.g., CSV or database records) and unstructured data (e.g., PDFs, text files).
-    It's required to use both types of data
+		It's required to use both types of data
 	2.	Retrieve relevant data from the vector database based on an input query.
-	3.	Generate a response using a generative language model that incorporates the retrieved information.
+	3.	Generate a response using a generative language model that incorporates the retrieved information using Groq LLM Api
 	4.	Deploy and automate the pipeline for querying and response generation.
 	5.	Implement logging, monitoring, and testing to ensure reliability and performance.
 
@@ -42,7 +42,7 @@ Automate the pipeline and deployment process:
 	•	Use a tool like GitHub Actions or GitLab CI for the CI/CD pipeline.
 	•	Implement automatic versioning for the model and its updates.
 
-### [OPTIONAL] Monitoring and Logging
+### Monitoring and Logging
 Ensure the system is observable in production.
 
 	•	Monitoring: Integrate monitoring tools to track system performance and health (e.g., Prometheus, Grafana).
@@ -77,6 +77,3 @@ Implement tests to validate the entire RAG pipeline.
 	•	Unit and integration test code.
 	•	Results from load tests, with a description of any optimizations made.
 
-Use groq cloud api for LLM queries or text generation
-UV as package/environment manager for python
-Qdrant in a docker instance as vector database

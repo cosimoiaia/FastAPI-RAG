@@ -1,0 +1,16 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: rag-api-scaler
+spec:
+  scaleTargetRef:
+    name: rag-api
+  minReplicaCount: 0
+  maxReplicaCount: 10
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-server.monitoring.svc.cluster.local
+        metricName: http_requests_total
+        threshold: '10'
+        query: sum(rate(http_requests_total{service="rag-api"}[2m]))
