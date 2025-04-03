@@ -99,33 +99,70 @@ python tests/load_test.py --requests 1000 --concurrent 20 --url http://localhost
 
 ## Monitoring and Logging
 
-The application includes comprehensive monitoring and logging:
+The application includes comprehensive monitoring and logging infrastructure:
 
-### Metrics
-- Query processing time
+### Metrics Collection (Prometheus)
+- Query processing time (average and 95th percentile)
 - Document processing time
 - Total queries processed
-- Documents processed
-- Error rates
+- Error rates and types
+- System resource utilization (CPU, Memory)
+- Request rates and patterns
 
-### Monitoring Stack
-1. Prometheus for metrics collection
-2. Grafana for visualization
-3. Fluentd for log aggregation
-4. Elasticsearch for log storage
-
-### Dashboards
-Access the Grafana dashboard at `http://grafana.your-domain/dashboards/rag-pipeline` to view:
-- Query latency metrics
-- Request rates
-- Error rates
-- System resource utilization
-
-### Alerts
-Configured alerts for:
-- High error rates (>10% in 5 minutes)
+### Alerting Rules
+- High error rate (>10% in 5 minutes)
 - Slow query processing (95th percentile >5s)
-- Resource utilization thresholds
+- High memory usage (>80% of limit)
+- High CPU usage (>80% for 5 minutes)
+
+### Logging Infrastructure
+- Application logs with rotating file handler
+- Structured JSON logging format
+- Log aggregation via Fluentd
+- Elasticsearch storage for log analysis
+- Log enrichment with service metadata
+- Log filtering for important events (ERROR, WARN, INFO)
+
+### Grafana Dashboards
+Access the Grafana dashboard at `http://grafana.your-domain/dashboards/rag-pipeline` to view:
+
+1. Query Processing Metrics
+   - Average processing time
+   - 95th percentile latency
+   - Request patterns
+
+2. System Health
+   - Query and error rates
+   - Resource utilization
+   - Service status
+
+3. Document Processing
+   - Processing time trends
+   - Document ingestion rates
+   - Processing errors
+
+4. Resource Usage
+   - Memory utilization
+   - CPU usage
+   - Container metrics
+
+### Log Analysis
+Logs are available in Elasticsearch with the following structure:
+- Index pattern: `rag-api-*`
+- Fields:
+  - timestamp
+  - log level
+  - service name
+  - environment
+  - message
+  - metadata
+
+### Local Development Logging
+For local development, logs are written to:
+- Console output (stdout)
+- Rotating log files in `logs/app.log`
+  - Max file size: 10MB
+  - Backup count: 5 files
 
 ## Load Testing
 
@@ -153,4 +190,4 @@ Configure scaling behavior in `k8s/keda-scaler.yaml`.
 
 ## License
 
-MIT
+Cosimo Iaia

@@ -14,9 +14,9 @@ async def process_query(query: QueryRequest):
     try:
         response = await rag_pipeline.process_query(query.text)
         return QueryResponse(
-            answer=response.answer,
-            sources=response.sources,
-            confidence=response.confidence
+            answer=response["answer"],
+            sources=response["sources"],
+            confidence=response["confidence"]
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

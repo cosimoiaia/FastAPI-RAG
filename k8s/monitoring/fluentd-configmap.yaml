@@ -26,6 +26,23 @@ data:
       </parse>
     </filter>
 
+    <filter rag-api>
+      @type record_transformer
+      <record>
+        service_name rag-api
+        environment ${ENV}
+        log_type application
+      </record>
+    </filter>
+
+    <filter rag-api>
+      @type grep
+      <regexp>
+        key log
+        pattern /ERROR|WARN|INFO/
+      </regexp>
+    </filter>
+
     <match rag-api>
       @type elasticsearch
       host elasticsearch-master
@@ -33,4 +50,20 @@ data:
       logstash_format true
       logstash_prefix rag-api
       flush_interval 5s
+      buffer_type memory
+      buffer_chunk_limit 2M
+      buffer_queue_limit 32
+      retry_max_interval 30
+      retry_forever true
+      include_timestamp true
+      time_key_format %Y-%m-%dT%H:%M:%S.%NZ
+      <buffer>
+        @type memory
+        flush_thread_count 4
+        flush_interval 5s
+        chunk_limit_size 2M
+        queue_limit_length 32
+        retry_max_interval 30
+        retry_forever true
+      </buffer>
     </match>
