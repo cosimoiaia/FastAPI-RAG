@@ -2,9 +2,13 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: vector-store-pvc
+  namespace: rag-system
+  annotations:
+    description: "Storage for vector database and processed data"
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: microk8s-hostpath
   resources:
     requests:
       storage: 10Gi

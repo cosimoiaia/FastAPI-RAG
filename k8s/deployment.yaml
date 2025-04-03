@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rag-api
+  namespace: rag-system
   labels:
     app: rag-api
 spec:
@@ -20,7 +21,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: rag-api
-        image: igenius-rag:latest
+        image: localhost:32000/igenius-rag:latest
         ports:
         - containerPort: 8000
         env:
@@ -28,7 +29,32 @@ spec:
           valueFrom:
             secretKeyRef:
               name: rag-secrets
-              key: groq-api-key
+              key: GROQ_API_KEY
+        - name: ENV
+          valueFrom:
+            secretKeyRef:
+              name: rag-secrets
+              key: ENV
+        - name: GROQ_MODEL
+          valueFrom:
+            secretKeyRef:
+              name: rag-secrets
+              key: GROQ_MODEL
+        - name: VECTORDB_PATH
+          valueFrom:
+            secretKeyRef:
+              name: rag-secrets
+              key: VECTORDB_PATH
+        - name: RAW_DATA_PATH
+          valueFrom:
+            secretKeyRef:
+              name: rag-secrets
+              key: RAW_DATA_PATH
+        - name: PROCESSED_DATA_PATH
+          valueFrom:
+            secretKeyRef:
+              name: rag-secrets
+              key: PROCESSED_DATA_PATH
         resources:
           requests:
             memory: "512Mi"
